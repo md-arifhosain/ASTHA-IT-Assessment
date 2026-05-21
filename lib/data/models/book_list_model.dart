@@ -1,5 +1,5 @@
-class BookListModel {
-    BookListModel({
+class BookModel {
+    BookModel({
         required this.kind,
         required this.totalItems,
         required this.items,
@@ -9,8 +9,8 @@ class BookListModel {
     final int? totalItems;
     final List<Item> items;
 
-    factory BookListModel.fromJson(Map<String, dynamic> json){ 
-        return BookListModel(
+    factory BookModel.fromJson(Map<String, dynamic> json){ 
+        return BookModel(
             kind: json["kind"],
             totalItems: json["totalItems"],
             items: json["items"] == null ? [] : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
