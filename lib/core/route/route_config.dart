@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/book_list_model.dart';
 import '../../presentation/book/book_list/view/book_list_screen.dart';
-import '../../presentation/splash/view/splash_screen.dart';
+
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case RoutesName.splashRoute:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+     
       case RoutesName.bookListScreen:
         return MaterialPageRoute(builder: (_) => const BookListScreen());
       case RoutesName.bookDetailsScreen:
