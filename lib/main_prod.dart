@@ -1,3 +1,5 @@
+// lib/main_prod.dart
+
 import 'package:astha_it_assessment/app_config.dart';
 import 'package:astha_it_assessment/core/route/route_config.dart';
 import 'package:astha_it_assessment/core/route/route_name.dart';
@@ -9,11 +11,23 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
+
   Hive.registerAdapter(BookFavouriteModelAdapter());
-  await Hive.openBox<BookFavouriteModel>('favorite_books');
-  AppConfig.setFlavor(Flavor.dev);
-  runApp(const ProviderScope(child: MyApp()));
+
+  await Hive.openBox<BookFavouriteModel>(
+    'favorite_books',
+  );
+
+  /// PROD Flavor
+  AppConfig.setFlavor(Flavor.prod);
+
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
@@ -26,12 +40,14 @@ class MyApp extends ConsumerWidget {
 
       builder: (context, child) {
         return MaterialApp(
-          title: 'ATLISS',
+          title: AppConfig.appName,
 
           debugShowCheckedModeBanner: false,
 
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+            ),
           ),
 
           onGenerateRoute: RouteGenerator.getRoute,
