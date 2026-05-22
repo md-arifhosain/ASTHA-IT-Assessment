@@ -14,8 +14,8 @@ class RouteGenerator {
       case RoutesName.bookListScreen:
         return MaterialPageRoute(builder: (_) => const BookListScreen());
       case RoutesName.bookDetailsScreen:
-       final book = routeSettings.arguments as BookModel;
-        return MaterialPageRoute(builder: (_) =>  BookDetailsScreen(book:book ,));
+        final book = routeSettings.arguments as BookModel;
+        return MaterialPageRoute(builder: (_) => BookDetailsScreen(book: book));
 
       default:
         return unDefineRoute();
