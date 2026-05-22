@@ -1,15 +1,13 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-
-import 'api_endpoinds.dart';
+import '../../app_config.dart';
 import 'error_handler.dart';
 import 'response_handler.dart' show ResposeHandle;
 
 class APIClients {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: APIEndpoinds.baseURL,
+      baseUrl: AppConfig.baseUrl,
       connectTimeout: Duration(seconds: 10),
       sendTimeout: Duration(seconds: 10),
       receiveTimeout: Duration(seconds: 10),
@@ -22,7 +20,7 @@ class APIClients {
    
   }) async {
     try {
-        log("\n\n\n\nurl :${APIEndpoinds.baseURL}/$endpoints \n\n\n\n");
+        log("\n\n\n\nurl :${AppConfig.baseUrl}/$endpoints \n\n\n\n");
       final response = await _dio.get(
         '/$endpoints',
          options: Options(
