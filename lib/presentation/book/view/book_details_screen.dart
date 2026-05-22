@@ -1,15 +1,13 @@
-import 'package:astha_it_assessment/presentation/book/book_details/view/widgets/info_chip.dart';
+// ignore_for_file: deprecated_member_use
+
+import 'package:astha_it_assessment/presentation/book/widgets/info_chip.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/resources/color_manager.dart';
-import '../../../../data/models/book_list_model.dart';
-
+import '../../../core/resources/color_manager.dart';
+import '../../../data/models/book_list_model.dart';
 // import 'package:flutter/material.dart';
-
 class BookDetailsScreen extends StatelessWidget {
   const BookDetailsScreen({super.key, required this.book});
   final BookModel book;
-
   @override
   Widget build(BuildContext context) {
     final info = book.volumeInfo;
@@ -19,7 +17,6 @@ class BookDetailsScreen extends StatelessWidget {
         : 'N/A';
     final date = info?.publishedDate ?? 'N/A';
     final desc = info?.description ?? 'N/A';
-
     return Scaffold(
       backgroundColor: const Color(0xFFF6F0FF),
       appBar: AppBar(

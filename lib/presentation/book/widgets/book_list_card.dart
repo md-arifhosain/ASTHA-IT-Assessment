@@ -75,6 +75,8 @@
 //                 ),
 //                 SizedBox(height: 5),
 
+// ignore_for_file: deprecated_member_use
+
 //                 // ── Text Section ──────────────────────────────────────────
 //                 Padding(
 //                   padding: const EdgeInsets.fromLTRB(10, 8, 10, 4),
@@ -145,15 +147,15 @@
 //   }
 // }
 import 'package:astha_it_assessment/data/models/book_favourite_model.dart';
-import 'package:astha_it_assessment/presentation/book/book_list/viewmodel/book_favourite_provider.dart';
+import 'package:astha_it_assessment/presentation/book/viewmodel/book_favourite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../../core/resources/icon_manager.dart';
-import '../../../../../core/route/route_name.dart';
-import '../../../../../data/models/book_list_model.dart';
+import '../../../core/resources/icon_manager.dart';
+import '../../../core/route/route_name.dart';
+import '../../../data/models/book_list_model.dart';
 
 class BookListCard extends StatelessWidget {
   const BookListCard({super.key, required this.book, required this.ref});
@@ -201,7 +203,7 @@ class BookListCard extends StatelessWidget {
                     child: Image.network(
                       book.volumeInfo?.imageLinks?.thumbnail ?? '',
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
+                      errorBuilder: (_, _, _) => Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,

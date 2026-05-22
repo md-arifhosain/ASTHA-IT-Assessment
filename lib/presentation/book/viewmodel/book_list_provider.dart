@@ -5,7 +5,7 @@ import 'package:astha_it_assessment/data/models/book_list_model.dart';
 import 'package:astha_it_assessment/data/sources/remote/book_api_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../data/repository/book_repository.dart';
+import '../../../data/repository/book_repository.dart';
 
 
 final booksProvider = AsyncNotifierProvider<BooksNotifier, BookState>(

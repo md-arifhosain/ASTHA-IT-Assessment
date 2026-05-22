@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/resources/color_manager.dart';
+import '../../../core/resources/color_manager.dart';
 
 class InfoChip extends StatelessWidget {
   final IconData icon;
