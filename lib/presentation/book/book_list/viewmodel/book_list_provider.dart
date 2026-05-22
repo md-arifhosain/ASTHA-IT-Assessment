@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:astha_it_assessment/core/network/api_clients.dart';
 import 'package:astha_it_assessment/data/models/book_list_model.dart';
@@ -6,102 +7,98 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../data/repository/book_repository.dart';
 
-final booksProvider =
-    NotifierProvider<RecommendedNotifier, BookState>(
-  RecommendedNotifier.new,
+
+final booksProvider = AsyncNotifierProvider<BooksNotifier, BookState>(
+  BooksNotifier.new,
 );
 
-class RecommendedNotifier extends Notifier<BookState> {
-
-  late BookRepository repo=BookRepository(remote: BookApiServices(apiClients: APIClients()));
+class BooksNotifier extends AsyncNotifier<BookState> {
+  late BookRepository repo;
 
   @override
-  BookState build() {
+  Future<BookState> build() async {
+    repo = BookRepository(remote: BookApiServices(apiClients: APIClients()));
 
-    
-
-    Future.microtask(() => fetchInitial());
-
-    return BookState.initial();
+    return await fetchInitial();
   }
 
-  Future<void> fetchInitial() async {
+  /// Initial Load
+  Future<BookState> fetchInitial() async {
+    log(" intial call ");
 
     try {
+      final data = await repo.getBookFromGoogleApi(page: 1);
 
-      state = state.copyWith(
-        isLoading: true,
-        error: null,
-        books: []
-      );
-
-      final data = await repo.getBookFromGoogleApi(
-        page: 1
-       
-      );
-
-      state = state.copyWith(
+      final newState = BookState(
         books: data ?? [],
         isLoading: false,
-        page: 1,
-        hasMore: data!=null&& data.length>=10,
+        isLoadingMore: false,
+        page: 0,
+        hasMore: data != null && data.length >= 10,
+        error: null,
       );
 
-    } catch (e) {
+      state = AsyncData(newState);
 
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      return newState;
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+
+      rethrow;
     }
   }
 
+  /// Load More Pagination
   Future<void> loadMore() async {
+    if (!state.hasValue) return;
 
-    if (state.isLoadingMore ||
-        state.isLoading ||
-        !state.hasMore) {
+    final currentState = state.value!;
+
+    if (currentState.isLoadingMore || !currentState.hasMore) {
       return;
     }
+     log(" load more call ");
+
 
     try {
+      /// Loading More State
+      state = AsyncData(currentState.copyWith(isLoadingMore: true));
 
-      state = state.copyWith(
-        isLoadingMore: true,
-      );
+      final nextPage = currentState.page + 1;
 
-      final nextPage = state.page + 1;
+      final data = await repo.getBookFromGoogleApi(page: nextPage);
 
-      final data = await repo.getBookFromGoogleApi(
-       page: nextPage
-      );
+      final newBooks = data ?? [];
 
-      final newProducts = data ?? [];
-
-      state = state.copyWith(
-        books: [
-          ...state.books,
-          ...newProducts,
-        ],
+      final updatedState = currentState.copyWith(
+        books: [...currentState.books, ...newBooks],
         isLoadingMore: false,
         page: nextPage,
-        hasMore: newProducts.isNotEmpty&& newProducts.length>=10,
+        hasMore: newBooks.isNotEmpty && newBooks.length >= 10,
       );
 
-    } catch (e) {
-
-      state = state.copyWith(
+      state = AsyncData(updatedState);
+    } catch (e, _) {
+      final errorState = BookState(
+        books: [],
+        isLoading: false,
         isLoadingMore: false,
+        hasMore: false,
+        page: 0,
         error: e.toString(),
       );
+
+      state = state = AsyncData(errorState);
     }
   }
 
+  /// Refresh
   Future<void> refresh() async {
+    state = const AsyncLoading();
 
-    state = BookState.initial();
-
-    await fetchInitial();
+    state = await AsyncValue.guard(() async {
+      return await fetchInitial();
+    });
   }
 }
 
@@ -124,7 +121,7 @@ class BookState {
 
   factory BookState.initial() {
     return BookState(
-      books:[],
+      books: [],
       isLoading: false,
       isLoadingMore: false,
       hasMore: true,
@@ -133,7 +130,7 @@ class BookState {
   }
 
   BookState copyWith({
-List<BookModel> ? books,
+    List<BookModel>? books,
     bool? isLoading,
     bool? isLoadingMore,
     bool? hasMore,
