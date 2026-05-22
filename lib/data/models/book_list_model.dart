@@ -1,26 +1,7 @@
+
+
 class BookModel {
     BookModel({
-        required this.kind,
-        required this.totalItems,
-        required this.items,
-    });
-
-    final String? kind;
-    final int? totalItems;
-    final List<Item> items;
-
-    factory BookModel.fromJson(Map<String, dynamic> json){ 
-        return BookModel(
-            kind: json["kind"],
-            totalItems: json["totalItems"],
-            items: json["items"] == null ? [] : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
-        );
-    }
-
-}
-
-class Item {
-    Item({
         required this.kind,
         required this.id,
         required this.etag,
@@ -40,8 +21,8 @@ class Item {
     final AccessInfo? accessInfo;
     final SearchInfo? searchInfo;
 
-    factory Item.fromJson(Map<String, dynamic> json){ 
-        return Item(
+    factory BookModel.fromJson(Map<String, dynamic> json){ 
+        return BookModel(
             kind: json["kind"],
             id: json["id"],
             etag: json["etag"],
