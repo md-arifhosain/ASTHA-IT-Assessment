@@ -8,11 +8,11 @@ class APIClients {
     BaseOptions(
       baseUrl: AppConfig.baseUrl,
 
-      connectTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 15),
 
-      sendTimeout: const Duration(seconds: 10),
+      sendTimeout: const Duration(seconds: 15),
 
-      receiveTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 15),
     ),
   );
 

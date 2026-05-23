@@ -23,11 +23,11 @@ class BooksNotifier extends AsyncNotifier<BookState> {
   }
 
   /// Initial Load
-  Future<BookState> fetchInitial() async {
+  Future<BookState> fetchInitial({String? query,}) async {
     log(" intial call ");
 
     try {
-      final data = await repo.getBookFromGoogleApi(page: 1);
+      final data = await repo.getBookFromGoogleApi(page: 1, query: query);
 
       final newState = BookState(
         books: data ?? [],

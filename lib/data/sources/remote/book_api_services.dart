@@ -5,11 +5,19 @@ import 'package:astha_it_assessment/data/models/book_list_model.dart';
 class BookApiServices {
   APIClients apiClients;
   BookApiServices({required this.apiClients});
-  Future<List<BookModel>?> getBookFromGoogleApi({required int page}) async {
+  Future<List<BookModel>?> getBookFromGoogleApi({
+    required int page,
+    String? query,
+  }) async {
     try {
+      String _currentQuery = 'flutter';
+      if (query != null && query.isNotEmpty) {
+        _currentQuery = query;
+      }
+
       final response = await apiClients.getRequest(
         endpoints:
-            "${APIEndpoinds.volumes}?q=flutter&startIndex=$page&maxResults=10&key=${APIEndpoinds.key}",
+            "${APIEndpoinds.volumes}?q=$_currentQuery&startIndex=$page&maxResults=10&key=${APIEndpoinds.key}",
       );
       if (response != null) {
         List<BookModel> bookList = [];
