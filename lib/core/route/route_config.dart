@@ -6,6 +6,7 @@ import '../../data/models/book_list_model.dart';
 import '../../presentation/book/view/book_list_screen.dart';
 
 
+
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {

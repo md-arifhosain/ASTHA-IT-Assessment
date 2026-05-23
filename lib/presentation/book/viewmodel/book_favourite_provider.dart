@@ -19,31 +19,18 @@ class FavoriteNotifier extends Notifier<List<BookFavouriteModel>> {
     return box.values.toList();
   }
 
-  /// Add / Remove Favorite
   Future<void> toggleFavorite({required BookFavouriteModel book}) async {
-    log("called id = ${book.id}");
-
     final isExist = box.containsKey(book.id);
 
     if (isExist) {
-      log("delete id = ${book.id}");
+      log("delete favourite id = ${book.id}");
 
       await box.delete(book.id);
     } else {
-      log("add id = ${book.id}");
+      log("add favourite id = ${book.id}");
       await box.put(book.id, book);
     }
 
     state = box.values.toList();
-  }
-
-  /// Check Favorite
-  bool isFavorite({required String bookId}) {
-    log("Check id = $bookId");
-    if (bookId == '') {
-      return false;
-    }
-
-    return box.containsKey(bookId);
   }
 }

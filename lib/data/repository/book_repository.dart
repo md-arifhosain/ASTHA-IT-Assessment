@@ -4,7 +4,7 @@ import '../sources/remote/book_api_services.dart';
 class BookRepository {
   final BookApiServices remote;
   BookRepository({required this.remote});
-  Future<List<BookModel>?> getBookFromGoogleApi({required int page}) async {
-    return await remote.getBookFromGoogleApi(page: page);
+  Future<List<BookModel>?> getBookFromGoogleApi({required int page, String? query,}) async {
+    return await remote.getBookFromGoogleApi(page: page, query: query);
   }
 }
