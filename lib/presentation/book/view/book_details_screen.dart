@@ -4,6 +4,7 @@ import 'package:astha_it_assessment/presentation/book/widgets/info_chip.dart';
 import 'package:flutter/material.dart';
 import '../../../core/resources/color_manager.dart';
 import '../../../data/models/book_list_model.dart';
+
 // import 'package:flutter/material.dart';
 class BookDetailsScreen extends StatelessWidget {
   const BookDetailsScreen({super.key, required this.book});
@@ -12,11 +13,9 @@ class BookDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final info = book.volumeInfo;
     final title = info?.title ?? 'N/A';
-    final author = info?.authors.isNotEmpty == true
-        ? info!.authors[0]
-        : 'N/A';
+    final author = info?.authors.isNotEmpty == true ? info!.authors[0] : 'N/A';
     final date = info?.publishedDate ?? 'N/A';
-    final desc = info?.description ?? 'N/A';
+    final desc = info?.description ?? 'No description available.';
     return Scaffold(
       backgroundColor: const Color(0xFFF6F0FF),
       appBar: AppBar(
@@ -25,8 +24,11 @@ class BookDetailsScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios_new_rounded,
-              color: ColorManager.whiteColor, size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: ColorManager.whiteColor,
+            size: 20,
+          ),
         ),
         title: const Text(
           'Book Details',
@@ -41,7 +43,6 @@ class BookDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-        
             Container(
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 36),
@@ -79,7 +80,6 @@ class BookDetailsScreen extends StatelessWidget {
               ),
             ),
 
-
             Transform.translate(
               offset: const Offset(0, -20),
               child: Padding(
@@ -92,7 +92,7 @@ class BookDetailsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color:  ColorManager.primaryColor.withOpacity(0.08),
+                        color: ColorManager.primaryColor.withOpacity(0.08),
                         blurRadius: 20,
                         offset: const Offset(0, 6),
                       ),
@@ -101,12 +101,10 @@ class BookDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-           
                       Row(
                         children: [
                           Expanded(
                             child: InfoChip(
-
                               icon: Icons.person_outline_rounded,
                               label: 'Author(s)',
                               value: author,
@@ -129,8 +127,11 @@ class BookDetailsScreen extends StatelessWidget {
 
                       Row(
                         children: const [
-                          Icon(Icons.menu_book_outlined,
-                              size: 16, color: ColorManager.primaryColor),
+                          Icon(
+                            Icons.menu_book_outlined,
+                            size: 16,
+                            color: ColorManager.primaryColor,
+                          ),
                           SizedBox(width: 6),
                           Text(
                             'Description',
@@ -163,9 +164,6 @@ class BookDetailsScreen extends StatelessWidget {
     );
   }
 }
-
-
-
 
 // ── Divider ───────────────────────────────────────────────────────────────────
 

@@ -89,7 +89,15 @@ class _BookListScreenState extends ConsumerState<BookListScreen> {
                 controller: controller,
                 decoration: textFormDecoration(
                   ref: ref,
-                  query: controller.text.trim(),
+                  onTap: () async {
+                    log(controller.text);
+                    if (controller.text.isNotEmpty) {
+                      await ref
+                          .read(booksProvider.notifier)
+                          .fetchInitial(query: controller.text);
+                      controller.clear();
+                    }
+                  },
                 ),
               ),
             ),
@@ -238,17 +246,15 @@ class _BookListScreenState extends ConsumerState<BookListScreen> {
     );
   }
 
-  InputDecoration textFormDecoration({required WidgetRef ref, String? query}) {
+  InputDecoration textFormDecoration({
+    required WidgetRef ref,
+    required VoidCallback onTap,
+  }) {
     return InputDecoration(
       hintText: 'Search books, authors…',
-      //prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF6750A4)),
+
       suffixIcon: IconButton(
-        onPressed: () {
-          log(query??'nai');
-          if (query != null && query.isNotEmpty) {
-             ref.read(booksProvider.notifier).fetchInitial(query: query);
-          }
-        },
+        onPressed: onTap,
         icon: Icon(Icons.search, size: 34, color: ColorManager.primaryColor),
       ),
       filled: true,

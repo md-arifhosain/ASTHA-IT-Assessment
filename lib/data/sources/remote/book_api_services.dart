@@ -19,7 +19,7 @@ class BookApiServices {
       log("query :$currentQuery");
       final response = await apiClients.getRequest(
         endpoints:
-            "${APIEndpoinds.volumes}?q=flutter&startIndex=$page&maxResults=10&key=${APIEndpoinds.key}",
+            "${APIEndpoinds.volumes}?q=$currentQuery&startIndex=$page&maxResults=10&key=${APIEndpoinds.key}",
       );
       if (response != null) {
         List<BookModel> bookList = [];
